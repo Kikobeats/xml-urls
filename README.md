@@ -1,7 +1,5 @@
 # xml-urls
 
-[![Greenkeeper badge](https://badges.greenkeeper.io/Kikobeats/xml-urls.svg)](https://greenkeeper.io/)
-
 ![Last version](https://img.shields.io/github/tag/Kikobeats/xml-urls.svg?style=flat-square)
 [![Build Status](https://img.shields.io/travis/Kikobeats/xml-urls/master.svg?style=flat-square)](https://travis-ci.org/Kikobeats/xml-urls)
 [![Coverage Status](https://img.shields.io/coveralls/Kikobeats/xml-urls.svg?style=flat-square)](https://coveralls.io/github/Kikobeats/xml-urls)
