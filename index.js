@@ -6,7 +6,7 @@ const got = require('got')
 
 const REGEX_URL_XML = /\.xml$/
 
-const isXML = url => REGEX_URL_XML.test(url)
+const isXmlUrl = url => REGEX_URL_XML.test(url)
 
 const walkUrls = async (url, opts) => {
   const { body: html } = await got(url, opts)
@@ -19,7 +19,7 @@ const walkUrls = async (url, opts) => {
     .get()
 
   const iterator = async (set, url) => {
-    if (!isXML(url)) return set.add(url)
+    if (!isXmlUrl(url)) return set.add(url)
     const innerUrls = await walkUrls(url, opts)
     return new Set([...set, ...innerUrls])
   }
@@ -28,3 +28,4 @@ const walkUrls = async (url, opts) => {
 }
 
 module.exports = async (url, opts) => Array.from(await walkUrls(url, opts))
+module.exports.isXmlUrl = isXmlUrl
