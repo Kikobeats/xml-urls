@@ -1,3 +1,10 @@
+<a name="1.0.1"></a>
+## 1.0.1 (2018-01-28)
+
+* Expose isXmlUrl helper ([ed8a182](https://github.com/Kikobeats/xml-urls/commit/ed8a182))
+
+
+
 <a name="1.0.0"></a>
 # 1.0.0 (2018-01-28)
 
