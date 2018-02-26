@@ -22,7 +22,7 @@
     "xml"
   ],
   "dependencies": {
-    "aigle": "~1.10.1",
+    "aigle": "~1.11.0",
     "cheerio": "~1.0.0-rc.2",
     "got": "~8.2.0"
   },
