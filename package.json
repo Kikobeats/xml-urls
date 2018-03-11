@@ -24,7 +24,7 @@
   "dependencies": {
     "aigle": "~1.11.0",
     "cheerio": "~1.0.0-rc.2",
-    "got": "~8.2.0"
+    "got": "~8.3.0"
   },
   "devDependencies": {
     "ava": "latest",
