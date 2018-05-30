@@ -1,3 +1,16 @@
+<a name="1.0.2"></a>
+## 1.0.2 (2018-05-30)
+
+* Resolve relative urls ([cbfa4c7](https://github.com/Kikobeats/xml-urls/commit/cbfa4c7))
+* Update deps ([615e31c](https://github.com/Kikobeats/xml-urls/commit/615e31c))
+* fix(package): update aigle to version 1.11.0 ([cc372ce](https://github.com/Kikobeats/xml-urls/commit/cc372ce))
+* fix(package): update aigle to version 1.12.0 ([c93ae3e](https://github.com/Kikobeats/xml-urls/commit/c93ae3e))
+* fix(package): update got to version 8.1.0 ([923e607](https://github.com/Kikobeats/xml-urls/commit/923e607))
+* fix(package): update got to version 8.2.0 ([4537f57](https://github.com/Kikobeats/xml-urls/commit/4537f57))
+* fix(package): update got to version 8.3.0 ([640fb20](https://github.com/Kikobeats/xml-urls/commit/640fb20))
+
+
+
 <a name="1.0.1"></a>
 ## 1.0.1 (2018-01-28)
 
