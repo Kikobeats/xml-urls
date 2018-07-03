@@ -16,8 +16,3 @@ test('Get all URLs from a sitemap of sitemaps', async t => {
   )
   t.snapshot(urls)
 })
-
-test('Resolve relative urls', async t => {
-  const urls = await xmlUrls('https://kikobeats.com/sitemap.xml')
-  t.snapshot(urls)
-})
