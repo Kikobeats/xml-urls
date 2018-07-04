@@ -1,3 +1,11 @@
+<a name="1.0.3"></a>
+## 1.0.3 (2018-07-04)
+
+* Avoid mutate state ([9fb8656](https://github.com/Kikobeats/xml-urls/commit/9fb8656))
+* Remove unnecessary test ([bb509dd](https://github.com/Kikobeats/xml-urls/commit/bb509dd))
+
+
+
 <a name="1.0.2"></a>
 ## 1.0.2 (2018-05-30)
 
