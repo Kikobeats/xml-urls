@@ -25,7 +25,7 @@ const walkUrls = async (url, opts) => {
     .get()
 
   const iterator = async (set, url) => {
-    if (!isXmlUrl(url)) return set.add(getUrl(baseUrl, url))
+    if (!isXmlUrl(url)) return new Set([...set, getUrl(baseUrl, url)])
     const innerUrls = await walkUrls(url, opts)
     return new Set([...set, ...innerUrls])
   }
