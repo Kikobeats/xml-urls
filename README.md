@@ -24,7 +24,7 @@ const xmlUrls = require('xml-urls')
 ;(async() => {
   const url = process.argv[2]
   if (!url) throw new TypeError('Need to provide an url as first argument.')
-  const urls = xmlUrls(url)
+  const urls = await xmlUrls(url)
 
   urls.forEach(url => console.log(url))
 
