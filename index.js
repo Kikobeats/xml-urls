@@ -12,7 +12,7 @@ const REGEX_URL_XML = /\.xml$/
 const isXmlUrl = url => REGEX_URL_XML.test(url)
 
 const walkUrls = async (url, opts) => {
-  const { origin: baseUrl } = new URL('https://kikobeats.com/sitemap.xml')
+  const { origin: baseUrl } = new URL(url)
   const { body: html } = await got(url, opts)
   const $ = cheerio.load(html, { xmlMode: true })
 
