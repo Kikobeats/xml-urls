@@ -34,6 +34,14 @@ const xmlUrls = async (url, opts) => {
   return aigle.reduce(urls, iterator, new Set())
 }
 
-module.exports = async (url, opts) => Array.from(await xmlUrls(url, opts))
+const resolveUrl = async (url, opts) => Array.from(await xmlUrls(url, opts))
+
+module.exports = async (urls, opts) => {
+  const collection = [].concat(urls)
+  const iterator = async (set, url) =>
+    new Set([...set, ...(await resolveUrl(url))])
+  const set = await aigle.reduce(collection, iterator, new Set())
+  return Array.from(set)
+}
 
 module.exports.isXmlUrl = isXmlUrl
