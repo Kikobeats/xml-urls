@@ -1,3 +1,12 @@
+<a name="1.0.4"></a>
+## 1.0.4 (2018-07-09)
+
+* Fix typo ([01979a9](https://github.com/Kikobeats/xml-urls/commit/01979a9))
+* Refactor ([1b2039e](https://github.com/Kikobeats/xml-urls/commit/1b2039e))
+* Update README.md ([f236ecf](https://github.com/Kikobeats/xml-urls/commit/f236ecf))
+
+
+
 <a name="1.0.3"></a>
 ## 1.0.3 (2018-07-04)
 
