@@ -3,13 +3,14 @@
 const cheerio = require('cheerio')
 const { URL } = require('url')
 const aigle = require('aigle')
+const path = require('path')
 const got = require('got')
 
 const { getUrl } = require('@metascraper/helpers')
 
-const REGEX_URL_XML = /\.xml$/i
+const REGEX_URL_XML = /^\.xml$/i
 
-const isXmlUrl = url => REGEX_URL_XML.test(url)
+const isXml = url => REGEX_URL_XML.test(path.extname(url))
 
 const xmlUrls = async (url, opts) => {
   const { origin: baseUrl } = new URL(url)
@@ -25,9 +26,7 @@ const xmlUrls = async (url, opts) => {
     .get()
 
   const iterator = async (set, url) => {
-    const urls = isXmlUrl(url)
-      ? await xmlUrls(url, opts)
-      : [getUrl(baseUrl, url)]
+    const urls = isXml(url) ? await xmlUrls(url, opts) : [getUrl(baseUrl, url)]
     return new Set([...set, ...urls])
   }
 
@@ -44,4 +43,4 @@ module.exports = async (urls, opts) => {
   return Array.from(set)
 }
 
-module.exports.isXmlUrl = isXmlUrl
+module.exports.isXml = isXml
