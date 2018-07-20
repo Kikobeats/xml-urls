@@ -7,7 +7,7 @@ const got = require('got')
 
 const { getUrl } = require('@metascraper/helpers')
 
-const REGEX_URL_XML = /\.xml$/
+const REGEX_URL_XML = /\.xml$/i
 
 const isXmlUrl = url => REGEX_URL_XML.test(url)
 
