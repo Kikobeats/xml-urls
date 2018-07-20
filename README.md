@@ -53,7 +53,7 @@ Type: `string`
 
 #### options
 
-Use it for providing [got#options](https://github.com/sindresorhus/got#goturl-options).
+Use it for providing [html-get#options](https://github.com/Kikobeats/html-get#options).
 
 ## License
 

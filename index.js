@@ -1,10 +1,10 @@
 'use strict'
 
+const getHTML = require('html-get')
 const cheerio = require('cheerio')
 const { URL } = require('url')
 const aigle = require('aigle')
 const path = require('path')
-const got = require('got')
 
 const { getUrl } = require('@metascraper/helpers')
 
@@ -14,7 +14,7 @@ const isXml = url => REGEX_URL_XML.test(path.extname(url))
 
 const xmlUrls = async (url, opts) => {
   const { origin: baseUrl } = new URL(url)
-  const { body: html } = await got(url, opts)
+  const { html } = await getHTML(url, opts)
   const $ = cheerio.load(html, { xmlMode: true })
 
   const urls = $('loc')
@@ -38,7 +38,7 @@ const resolveUrl = async (url, opts) => Array.from(await xmlUrls(url, opts))
 module.exports = async (urls, opts) => {
   const collection = [].concat(urls)
   const iterator = async (set, url) =>
-    new Set([...set, ...(await resolveUrl(url))])
+    new Set([...set, ...(await resolveUrl(url, opts))])
   const set = await aigle.reduce(collection, iterator, new Set())
   return Array.from(set)
 }
