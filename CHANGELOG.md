@@ -1,3 +1,13 @@
+<a name="2.0.0"></a>
+# 2.0.0 (2018-07-20)
+
+* Add prerender support ([5e97842](https://github.com/Kikobeats/xml-urls/commit/5e97842))
+* better .isXml detection ([9b3f708](https://github.com/Kikobeats/xml-urls/commit/9b3f708))
+* Refactor ([6471ad1](https://github.com/Kikobeats/xml-urls/commit/6471ad1))
+* Update index.js ([4425b34](https://github.com/Kikobeats/xml-urls/commit/4425b34))
+
+
+
 <a name="1.0.5"></a>
 ## 1.0.5 (2018-07-09)
 
