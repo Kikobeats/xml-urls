@@ -1,9 +1,11 @@
 'use strict'
 
+const { concat, isEmpty } = require('lodash')
 const getHTML = require('html-get')
 const cheerio = require('cheerio')
-const { URL } = require('url')
+const matcher = require('matcher')
 const aigle = require('aigle')
+const { URL } = require('url')
 const path = require('path')
 
 const { getUrl } = require('@metascraper/helpers')
@@ -26,6 +28,8 @@ const xmlUrls = async (url, opts) => {
     .get()
 
   const iterator = async (set, url) => {
+    const match = !isEmpty(opts.whitelist) && matcher([url], concat(opts.whitelist))
+    if (!isEmpty(match)) return set
     const urls = isXml(url) ? await xmlUrls(url, opts) : [getUrl(baseUrl, url)]
     return new Set([...set, ...urls])
   }
@@ -36,9 +40,8 @@ const xmlUrls = async (url, opts) => {
 const resolveUrl = async (url, opts) => Array.from(await xmlUrls(url, opts))
 
 module.exports = async (urls, opts) => {
-  const collection = [].concat(urls)
-  const iterator = async (set, url) =>
-    new Set([...set, ...(await resolveUrl(url, opts))])
+  const collection = concat(urls)
+  const iterator = async (set, url) => new Set([...set, ...(await resolveUrl(url, opts))])
   const set = await aigle.reduce(collection, iterator, new Set())
   return Array.from(set)
 }

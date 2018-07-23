@@ -53,7 +53,18 @@ Type: `string`
 
 #### options
 
+Type: `object`
+
 Use it for providing [html-get#options](https://github.com/Kikobeats/html-get#options).
+
+##### whitelist
+
+Type: `array`<br>
+Default: `[]`
+
+A list of links to be excluded from the final output. It supports regex patterns.
+
+See [matcher](https://github.com/sindresorhus/matcher#matcher-= for know more.
 
 ## License
 
