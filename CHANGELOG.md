@@ -1,3 +1,15 @@
+<a name="2.0.1"></a>
+## 2.0.1 (2018-09-05)
+
+* Add whitelist support ([d6cd77c](https://github.com/Kikobeats/xml-urls/commit/d6cd77c))
+* Update API ([e8cd8a1](https://github.com/Kikobeats/xml-urls/commit/e8cd8a1))
+* Update package.json ([78f7759](https://github.com/Kikobeats/xml-urls/commit/78f7759))
+* fix(package): update @metascraper/helpers to version 3.12.1 ([f8dc98f](https://github.com/Kikobeats/xml-urls/commit/f8dc98f))
+* fix(package): update @metascraper/helpers to version 4.0.0 ([9a51792](https://github.com/Kikobeats/xml-urls/commit/9a51792))
+* fix(package): update @metascraper/helpers to version 4.1.0 ([09492ad](https://github.com/Kikobeats/xml-urls/commit/09492ad))
+
+
+
 <a name="2.0.0"></a>
 # 2.0.0 (2018-07-20)
 
