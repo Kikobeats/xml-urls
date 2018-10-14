@@ -27,7 +27,7 @@
     "@metascraper/helpers": "~4.3.0",
     "aigle": "~1.12.0",
     "cheerio": "~1.0.0-rc.2",
-    "html-get": "~1.2.0",
+    "html-get": "~1.3.3",
     "lodash": "~4.17.10"
   },
   "devDependencies": {
