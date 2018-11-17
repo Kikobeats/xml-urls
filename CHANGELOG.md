@@ -1,3 +1,19 @@
+<a name="2.1.0"></a>
+# 2.1.0 (2018-11-17)
+
+* Fix linter ([6d499d4](https://github.com/Kikobeats/xml-urls/commit/6d499d4))
+* Remove duplicates support ([c5b24b9](https://github.com/Kikobeats/xml-urls/commit/c5b24b9))
+* Rename isXml → isXmlUrl ([85d2ea1](https://github.com/Kikobeats/xml-urls/commit/85d2ea1))
+* Update package.json ([db1dd55](https://github.com/Kikobeats/xml-urls/commit/db1dd55))
+* fix(package): update @metascraper/helpers to version 4.5.5 ([acc7b9f](https://github.com/Kikobeats/xml-urls/commit/acc7b9f))
+* fix(package): update @metascraper/helpers to version 4.7.0 ([4af4210](https://github.com/Kikobeats/xml-urls/commit/4af4210))
+* fix(package): update html-get to version 1.1.0 ([8c3d69d](https://github.com/Kikobeats/xml-urls/commit/8c3d69d))
+* fix(package): update html-get to version 1.2.0 ([dd5ee25](https://github.com/Kikobeats/xml-urls/commit/dd5ee25))
+* fix(package): update html-get to version 1.3.3 ([78bb6c2](https://github.com/Kikobeats/xml-urls/commit/78bb6c2))
+* fix(package): update html-get to version 1.4.0 ([8bc407c](https://github.com/Kikobeats/xml-urls/commit/8bc407c))
+
+
+
 <a name="2.0.1"></a>
 ## 2.0.1 (2018-09-05)
 
