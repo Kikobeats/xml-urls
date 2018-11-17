@@ -20,7 +20,7 @@ const getText = $ =>
       .trim()
   }
 
-const isXml = url => REGEX_URL_XML.test(path.extname(url))
+const isXmlUrl = url => REGEX_URL_XML.test(path.extname(url))
 
 const xmlUrls = async (
   url,
@@ -38,7 +38,7 @@ const xmlUrls = async (
   const iterator = async (set, url) => {
     const match = !isEmpty(whitelist) && matcher([url], concat(whitelist))
     if (!isEmpty(match)) return set
-    const urls = isXml(url)
+    const urls = isXmlUrl(url)
       ? await xmlUrls(url, opts)
       : [normalizeUrl(baseUrl, url)]
     return new Set([...set, ...urls])
@@ -59,4 +59,4 @@ module.exports = async (urls, opts) => {
   return Array.from(set)
 }
 
-module.exports.isXml = isXml
+module.exports.isXmlUrl = isXmlUrl
