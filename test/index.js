@@ -11,6 +11,14 @@ test('Get all URLs from a plain sitemap', async t => {
   t.snapshot(urls)
 })
 
+test('Remove duplicates', async t => {
+  const urls = await xmlUrls(
+    'https://gist.githubusercontent.com/Kikobeats/2df83a67729397032c3623974966a112/raw/87ba48da0ed5123ac50c1cbd0d2d0b473dccd10a/gistfile1.txt',
+    { prerender: false }
+  )
+  t.snapshot(urls)
+})
+
 test('Get all URLs from more than one sitemap', async t => {
   const urls = await xmlUrls(
     [
