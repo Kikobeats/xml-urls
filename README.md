@@ -66,6 +66,11 @@ A list of links to be excluded from the final output. It supports regex patterns
 
 See [matcher](https://github.com/sindresorhus/matcher#matcher-= for know more.
 
+## Related
+
+- [html-urls](https://github.com/Kikobeats/html-urls) – Get all urls from a HTML markup.
+- [css-urls](https://github.com/Kikobeats/css-urls) – Get all URLs referenced from stylesheet files.
+
 ## License
 
 **xml-urls** © [Kiko Beats](https://kikobeats.com), released under the [MIT](https://github.com/Kikobeats/xml-urls/blob/master/LICENSE.md) License.<br>
