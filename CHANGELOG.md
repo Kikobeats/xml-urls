@@ -1,3 +1,90 @@
+# Change Log
+
+All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
+
+<a name="2.1.1"></a>
+## 2.1.1 (2019-01-02)
+
+
+### Bug Fixes
+
+* **package:** update html-get to version 1.5.0 ([7e1182f](https://github.com/Kikobeats/xml-urls/commit/7e1182f))
+* **package:** update html-get to version 1.6.0 ([0ce9263](https://github.com/Kikobeats/xml-urls/commit/0ce9263))
+* **package:** update html-get to version 2.0.0 ([9166dea](https://github.com/Kikobeats/xml-urls/commit/9166dea))
+
+
+
+<a name="2.1.0"></a>
+# 2.1.0 (2018-11-17)
+
+
+### Bug Fixes
+
+* **package:** update [@metascraper](https://github.com/metascraper)/helpers to version 4.5.5 ([acc7b9f](https://github.com/Kikobeats/xml-urls/commit/acc7b9f))
+* **package:** update [@metascraper](https://github.com/metascraper)/helpers to version 4.7.0 ([4af4210](https://github.com/Kikobeats/xml-urls/commit/4af4210))
+* **package:** update html-get to version 1.1.0 ([8c3d69d](https://github.com/Kikobeats/xml-urls/commit/8c3d69d))
+* **package:** update html-get to version 1.2.0 ([dd5ee25](https://github.com/Kikobeats/xml-urls/commit/dd5ee25))
+* **package:** update html-get to version 1.3.3 ([78bb6c2](https://github.com/Kikobeats/xml-urls/commit/78bb6c2))
+* **package:** update html-get to version 1.4.0 ([8bc407c](https://github.com/Kikobeats/xml-urls/commit/8bc407c))
+
+
+
+<a name="2.0.1"></a>
+## 2.0.1 (2018-09-05)
+
+
+### Bug Fixes
+
+* **package:** update [@metascraper](https://github.com/metascraper)/helpers to version 3.12.1 ([f8dc98f](https://github.com/Kikobeats/xml-urls/commit/f8dc98f))
+* **package:** update [@metascraper](https://github.com/metascraper)/helpers to version 4.0.0 ([9a51792](https://github.com/Kikobeats/xml-urls/commit/9a51792))
+* **package:** update [@metascraper](https://github.com/metascraper)/helpers to version 4.1.0 ([09492ad](https://github.com/Kikobeats/xml-urls/commit/09492ad))
+
+
+
+<a name="2.0.0"></a>
+# 2.0.0 (2018-07-20)
+
+
+
+<a name="1.0.5"></a>
+## 1.0.5 (2018-07-09)
+
+
+
+<a name="1.0.4"></a>
+## 1.0.4 (2018-07-09)
+
+
+
+<a name="1.0.3"></a>
+## 1.0.3 (2018-07-04)
+
+
+
+<a name="1.0.2"></a>
+## 1.0.2 (2018-05-30)
+
+
+### Bug Fixes
+
+* **package:** update aigle to version 1.11.0 ([cc372ce](https://github.com/Kikobeats/xml-urls/commit/cc372ce))
+* **package:** update aigle to version 1.12.0 ([c93ae3e](https://github.com/Kikobeats/xml-urls/commit/c93ae3e))
+* **package:** update got to version 8.1.0 ([923e607](https://github.com/Kikobeats/xml-urls/commit/923e607))
+* **package:** update got to version 8.2.0 ([4537f57](https://github.com/Kikobeats/xml-urls/commit/4537f57))
+* **package:** update got to version 8.3.0 ([640fb20](https://github.com/Kikobeats/xml-urls/commit/640fb20))
+
+
+
+<a name="1.0.1"></a>
+## 1.0.1 (2018-01-28)
+
+
+
+<a name="1.0.0"></a>
+# 1.0.0 (2018-01-28)
+
+
+
 <a name="2.1.0"></a>
 # 2.1.0 (2018-11-17)
 
@@ -86,6 +173,3 @@
 * First commit ([4b11e2d](https://github.com/Kikobeats/xml-urls/commit/4b11e2d))
 * Update README.md ([eebcaf9](https://github.com/Kikobeats/xml-urls/commit/eebcaf9))
 * docs(readme): add Greenkeeper badge ([c9a2f4e](https://github.com/Kikobeats/xml-urls/commit/c9a2f4e))
-
-
-
