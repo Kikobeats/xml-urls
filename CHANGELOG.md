@@ -2,6 +2,16 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+<a name="2.1.2"></a>
+## [2.1.2](https://github.com/Kikobeats/xml-urls/compare/v2.1.1...v2.1.2) (2019-01-10)
+
+
+### Bug Fixes
+
+* **package:** update [@metascraper](https://github.com/metascraper)/helpers to version 4.9.0 ([83df264](https://github.com/Kikobeats/xml-urls/commit/83df264))
+
+
+
 <a name="2.1.1"></a>
 ## 2.1.1 (2019-01-02)
 
