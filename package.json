@@ -24,7 +24,7 @@
     "xml"
   ],
   "dependencies": {
-    "@metascraper/helpers": "~4.10.1",
+    "@metascraper/helpers": "~5.0.0",
     "aigle": "~1.13.0",
     "cheerio": "~1.0.0-rc.2",
     "html-get": "~2.0.11",
