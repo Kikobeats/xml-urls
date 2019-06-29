@@ -1,6 +1,34 @@
-# Change Log
+# Changelog
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
+
+### [2.1.7](https://github.com/Kikobeats/xml-urls/compare/v2.1.6...v2.1.7) (2019-06-29)
+
+
+### Bug Fixes
+
+* **package:** update @metascraper/helpers to version 5.3.0 ([9860aea](https://github.com/Kikobeats/xml-urls/commit/9860aea))
+* **package:** update @metascraper/helpers to version 5.4.0 ([90ef0e4](https://github.com/Kikobeats/xml-urls/commit/90ef0e4))
+* typo ([8983b24](https://github.com/Kikobeats/xml-urls/commit/8983b24))
+* **package:** update @metascraper/helpers to version 5.5.0 ([52a10f7](https://github.com/Kikobeats/xml-urls/commit/52a10f7))
+* **package:** update aigle to version 1.14.0 ([eca3851](https://github.com/Kikobeats/xml-urls/commit/eca3851))
+* **package:** update html-get to version 2.1.0 ([0dedd34](https://github.com/Kikobeats/xml-urls/commit/0dedd34))
+* **package:** update html-get to version 2.2.0 ([443ca6d](https://github.com/Kikobeats/xml-urls/commit/443ca6d))
+
+
+### Build System
+
+* change git-authors-cli position ([892c874](https://github.com/Kikobeats/xml-urls/commit/892c874))
+* update dependencies ([ff6a56c](https://github.com/Kikobeats/xml-urls/commit/ff6a56c))
+* update dependencies ([6c683d5](https://github.com/Kikobeats/xml-urls/commit/6c683d5))
+* update travis ([f188711](https://github.com/Kikobeats/xml-urls/commit/f188711))
+
+
+### Tests
+
+* unify fixtures ([0679244](https://github.com/Kikobeats/xml-urls/commit/0679244))
+
+
 
 ## [2.1.6](https://github.com/Kikobeats/xml-urls/compare/v2.1.5...v2.1.6) (2019-05-05)
 
