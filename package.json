@@ -24,11 +24,11 @@
     "xml"
   ],
   "dependencies": {
-    "@metascraper/helpers": "~5.15.0",
+    "@metascraper/helpers": "~5.15.4",
     "aigle": "~1.14.1",
     "cheerio": "~1.0.0-rc.3",
-    "html-get": "~2.8.2",
-    "lodash": "~4.17.15"
+    "html-get": "~2.8.10",
+    "lodash": "~4.17.20"
   },
   "devDependencies": {
     "@commitlint/cli": "latest",
