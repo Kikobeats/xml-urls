@@ -2,7 +2,7 @@
   "name": "xml-urls",
   "description": "Get all urls from a Feed/Atom/RSS/Sitemap xml markup.",
   "homepage": "https://nicedoc.io/Kikobeats/xml-urls",
-  "version": "2.1.19",
+  "version": "2.1.20",
   "main": "index.js",
   "author": {
     "email": "josefrancisco.verdu@gmail.com",
