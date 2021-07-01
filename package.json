@@ -24,10 +24,10 @@
     "xml"
   ],
   "dependencies": {
-    "@metascraper/helpers": "~5.22.0",
+    "@metascraper/helpers": "~5.22.5",
     "aigle": "~1.14.1",
-    "cheerio": "~1.0.0-rc.5",
-    "html-get": "~2.8.20",
+    "cheerio": "~1.0.0-rc.10",
+    "html-get": "~2.9.0",
     "lodash": "~4.17.21"
   },
   "devDependencies": {
@@ -37,16 +37,15 @@
     "browserless": "latest",
     "ci-publish": "latest",
     "conventional-github-releaser": "latest",
-    "coveralls": "latest",
     "finepack": "latest",
     "git-authors-cli": "latest",
     "git-dirty": "latest",
-    "husky": "latest",
     "lint-staged": "latest",
     "npm-check-updates": "latest",
     "nyc": "latest",
     "prettier-standard": "latest",
     "puppeteer": "latest",
+    "simple-git-hooks": "latest",
     "standard": "latest",
     "standard-markdown": "latest",
     "standard-version": "latest"
@@ -60,7 +59,6 @@
   "scripts": {
     "clean": "rm -rf node_modules",
     "contributors": "(git-authors-cli && finepack && git add package.json && git commit -m 'build: contributors' --no-verify) || true",
-    "coveralls": "nyc report --reporter=text-lcov | coveralls",
     "lint": "standard-markdown README.md && standard",
     "postrelease": "npm run release:tags && npm run release:github && (ci-publish || npm publish --access=public)",
     "prerelease": "npm run update:check && npm run contributors",
@@ -79,12 +77,6 @@
       "@commitlint/config-conventional"
     ]
   },
-  "husky": {
-    "hooks": {
-      "commit-msg": "commitlint -E HUSKY_GIT_PARAMS",
-      "pre-commit": "lint-staged"
-    }
-  },
   "lint-staged": {
     "package.json": [
       "finepack"
@@ -92,5 +84,9 @@
     "*.js": [
       "prettier-standard"
     ]
+  },
+  "simple-git-hooks": {
+    "commit-msg": "npx commitlint --edit",
+    "pre-commit": "npx lint-staged"
   }
 }
