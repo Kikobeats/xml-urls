@@ -22,10 +22,7 @@ const getText = $ =>
 
 const isXmlUrl = url => REGEX_URL_XML.test(path.extname(url))
 
-const xmlUrls = async (
-  url,
-  { cheerioOpts = {}, whitelist = false, ...opts } = {}
-) => {
+const xmlUrls = async (url, { cheerioOpts = {}, whitelist = false, ...opts } = {}) => {
   const { origin: baseUrl } = new URL(url)
   const { html } = await getHTML(url, opts)
   const $ = cheerio.load(html, { xmlMode: true, ...cheerioOpts })
@@ -38,9 +35,7 @@ const xmlUrls = async (
   const iterator = async (set, url) => {
     const match = !isEmpty(whitelist) && matcher([url], concat(whitelist))
     if (!isEmpty(match)) return set
-    const urls = isXmlUrl(url)
-      ? await xmlUrls(url, opts)
-      : [normalizeUrl(baseUrl, url)]
+    const urls = isXmlUrl(url) ? await xmlUrls(url, opts) : [normalizeUrl(baseUrl, url)]
     return new Set([...set, ...urls])
   }
 

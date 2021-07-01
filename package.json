@@ -45,6 +45,7 @@
     "nyc": "latest",
     "prettier-standard": "latest",
     "puppeteer": "latest",
+    "signal-exit": "latest",
     "simple-git-hooks": "latest",
     "standard": "latest",
     "standard-markdown": "latest",
@@ -72,6 +73,12 @@
     "update:check": "ncu -- --error-level 2"
   },
   "license": "MIT",
+  "ava": {
+    "files": [
+      "test/**/*",
+      "!test/util.js"
+    ]
+  },
   "commitlint": {
     "extends": [
       "@commitlint/config-conventional"
@@ -79,7 +86,7 @@
   },
   "lint-staged": {
     "package.json": [
-      "finepack"
+      "finepack --sort-ignore-object-at ava"
     ],
     "*.js": [
       "prettier-standard"

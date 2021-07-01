@@ -3,6 +3,7 @@
 const test = require('ava')
 const xmlUrls = require('..')
 
+const { getBrowserless } = require('./util')
 /**
  * tests files at: https://gist.github.com/Kikobeats/317550e76f1cbd399cebe3bddc0c146b
  */
@@ -16,25 +17,27 @@ const fixtures = {
 }
 
 test('Get all URLs from a plain sitemap', async t => {
-  const urls = await xmlUrls(fixtures.sitemap, { prerender: false })
+  const urls = await xmlUrls(fixtures.sitemap, { prerender: false, getBrowserless })
   t.snapshot(urls)
 })
 
 test('Remove duplicates', async t => {
   const urls = await xmlUrls(fixtures.sitemaWithDuplicates, {
-    prerender: false
+    prerender: false,
+    getBrowserless
   })
   t.snapshot(urls)
 })
 
 test('Get all URLs from more than one sitemap', async t => {
   const urls = await xmlUrls([fixtures.sitemap, fixtures.sitemap], {
-    prerender: false
+    prerender: false,
+    getBrowserless
   })
   t.snapshot(urls)
 })
 
 test('Get all URLs from a sitemap of sitemaps', async t => {
-  const urls = await xmlUrls(fixtures.sitemapOfSitemaps, { prerender: false })
+  const urls = await xmlUrls(fixtures.sitemapOfSitemaps, { prerender: false, getBrowserless })
   t.snapshot(urls)
 })
