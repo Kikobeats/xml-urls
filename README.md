@@ -4,7 +4,7 @@
 [![Coverage Status](https://img.shields.io/coveralls/Kikobeats/xml-urls.svg?style=flat-square)](https://coveralls.io/github/Kikobeats/xml-urls)
 [![NPM Status](https://img.shields.io/npm/dm/xml-urls.svg?style=flat-square)](https://www.npmjs.org/package/xml-urls)
 
-> Get all urls from a Feed/Atom/RSS/Sitemap xml markup.
+> Get all URLs detected inside a Feed/Atom/RSS/Sitemap xml markup.
 
 ## Install
 
