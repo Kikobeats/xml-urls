@@ -24,11 +24,12 @@
     "xml"
   ],
   "dependencies": {
-    "@metascraper/helpers": "~5.25.0",
+    "@metascraper/helpers": "~5.25.7",
     "aigle": "~1.14.1",
     "cheerio": "~1.0.0-rc.10",
-    "html-get": "~2.9.0",
-    "lodash": "~4.17.21"
+    "html-get": "~2.9.8",
+    "lodash": "~4.17.21",
+    "matcher": "~4.0.0"
   },
   "devDependencies": {
     "@commitlint/cli": "latest",
@@ -85,11 +86,11 @@
     ]
   },
   "nano-staged": {
-    "package.json": [
-      "finepack --sort-ignore-object-at ava"
-    ],
     "*.js": [
       "prettier-standard"
+    ],
+    "package.json": [
+      "finepack --sort-ignore-object-at ava"
     ]
   },
   "simple-git-hooks": {
