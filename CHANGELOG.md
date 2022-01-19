@@ -2,6 +2,8 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [2.1.26](https://github.com/Kikobeats/xml-urls/compare/v2.1.25...v2.1.26) (2022-01-19)
+
 ### [2.1.25](https://github.com/Kikobeats/xml-urls/compare/v2.1.24...v2.1.25) (2021-07-01)
 
 ### [2.1.24](https://github.com/Kikobeats/xml-urls/compare/v2.1.23...v2.1.24) (2021-06-01)
