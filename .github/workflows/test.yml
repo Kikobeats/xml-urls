@@ -6,6 +6,9 @@ on:
     branches:
       - master
 
+env:
+  CI: true
+
 jobs:
   test:
     runs-on: ubuntu-latest
@@ -16,13 +19,16 @@ jobs:
         uses: actions/setup-node@v3.0.0
         with:
           node-version: lts/*
-      - name: Install
-        run: npm install --no-package-lock --platform=linux --arch=x64
+      - name: Setup PNPM
+        uses: pnpm/action-setup@v2
+        with:
+          version: latest
+          run_install: true
       - name: Test
         run: npm test
-      - name: Report
-        run: mkdir -p coverage && npx c8 report --reporter=text-lcov > coverage/lcov.info
       - name: Coverage
+        run: mkdir -p coverage && npx c8 report --reporter=text-lcov > coverage/lcov.info
+      - name: Upload
         uses: coverallsapp/github-action@master
         with:
           github-token: ${{ secrets.GITHUB_TOKEN }}
