@@ -39,7 +39,7 @@
     "c8": "latest",
     "ci-publish": "latest",
     "conventional-github-releaser": "latest",
-    "exit-hook": "2",
+    "exit-hook": "3",
     "finepack": "latest",
     "git-authors-cli": "latest",
     "nano-staged": "latest",
