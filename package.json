@@ -74,11 +74,11 @@
   },
   "license": "MIT",
   "ava": {
-    "workerThreads": false,
     "files": [
-      "test/**/*",
-      "!test/util.js"
-    ]
+      "!test/util.js",
+      "test/**/*"
+    ],
+    "workerThreads": false
   },
   "commitlint": {
     "extends": [
