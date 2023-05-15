@@ -1,7 +1,7 @@
 {
   "name": "xml-urls",
   "description": "Get all urls from a Feed/Atom/RSS/Sitemap xml markup.",
-  "homepage": "https://nicedoc.io/Kikobeats/xml-urls",
+  "homepage": "https://github.com/Kikobeats/xml-urls",
   "version": "2.1.38",
   "main": "index.js",
   "author": {
@@ -46,6 +46,7 @@
     "npm-check-updates": "latest",
     "prettier-standard": "latest",
     "puppeteer": "latest",
+    "signal-exit": "latest",
     "simple-git-hooks": "latest",
     "standard": "latest",
     "standard-markdown": "latest",
@@ -59,7 +60,7 @@
   ],
   "scripts": {
     "clean": "rm -rf node_modules",
-    "contributors": "(git-authors-cli && finepack --sort-ignore-object-at ava && git add package.json && git commit -m 'build: contributors' --no-verify) || true",
+    "contributors": "(npx git-authors-cli && npx finepack --sort-ignore-object-at ava && git add package.json && git commit -m 'build: contributors' --no-verify) || true",
     "lint": "standard-markdown README.md && standard",
     "postrelease": "npm run release:tags && npm run release:github && (ci-publish || npm publish --access=public)",
     "prerelease": "npm run update:check && npm run contributors",
