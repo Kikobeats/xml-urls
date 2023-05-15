@@ -1,10 +1,10 @@
 'use strict'
 
 const createBrowserless = require('browserless')
-const exitHook = require('exit-hook')
+const { onExit } = require('signal-exit')
 
 const browserlessFactory = createBrowserless()
-exitHook(browserlessFactory.close)
+onExit(browserlessFactory.close)
 
 module.exports = {
   getBrowserless: () => browserlessFactory
