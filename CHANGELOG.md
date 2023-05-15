@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### 2.1.40 (2023-05-15)
+
+
+### Bug Fixes
+
+* remove unused dependency ([286d180](https://github.com/Kikobeats/xml-urls/commit/286d180a8774037680492cc456f3c4352f4f4fe0))
+
 ### 2.1.39 (2023-05-15)
 
 ### 2.1.38 (2023-03-30)
