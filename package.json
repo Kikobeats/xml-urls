@@ -34,6 +34,7 @@
   "devDependencies": {
     "@commitlint/cli": "latest",
     "@commitlint/config-conventional": "latest",
+    "@ksmithut/prettier-standard": "latest",
     "ava": "latest",
     "browserless": "latest",
     "c8": "latest",
@@ -43,7 +44,6 @@
     "git-authors-cli": "latest",
     "nano-staged": "latest",
     "npm-check-updates": "latest",
-    "prettier-standard": "latest",
     "puppeteer": "latest",
     "signal-exit": "latest",
     "simple-git-hooks": "latest",
@@ -86,8 +86,9 @@
     ]
   },
   "nano-staged": {
-    "*.js": [
-      "prettier-standard"
+    "*.js,!*.min.js": [
+      "prettier-standard",
+      "standard --fix"
     ],
     "package.json": [
       "finepack --sort-ignore-object-at ava"
