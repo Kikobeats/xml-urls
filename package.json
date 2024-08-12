@@ -24,10 +24,10 @@
     "xml"
   ],
   "dependencies": {
-    "@metascraper/helpers": "~5.45.0",
+    "@metascraper/helpers": "~5.45.22",
     "aigle": "~1.14.1",
-    "cheerio": "~1.0.0-rc.11",
-    "html-get": "~2.16.0",
+    "cheerio": "~1.0.0",
+    "html-get": "~2.16.8",
     "lodash": "~4.17.21",
     "matcher": "~4.0.0"
   },
