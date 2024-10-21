@@ -2,7 +2,7 @@
   "name": "xml-urls",
   "description": "Get all urls from a Feed/Atom/RSS/Sitemap xml markup.",
   "homepage": "https://github.com/Kikobeats/xml-urls",
-  "version": "2.1.55",
+  "version": "2.1.56",
   "main": "index.js",
   "author": {
     "email": "josefrancisco.verdu@gmail.com",
