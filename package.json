@@ -28,7 +28,7 @@
     "@metascraper/helpers": "~5.45.22",
     "aigle": "~1.14.1",
     "cheerio": "~1.0.0",
-    "html-get": "~2.17.2",
+    "html-get": "~2.18.0",
     "lodash": "~4.17.21",
     "matcher": "~4.0.0"
   },
