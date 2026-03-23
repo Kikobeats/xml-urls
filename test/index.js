@@ -28,6 +28,5 @@ test('Get all URLs from more than one sitemap', async t => {
 
 test('Get all URLs from a sitemap of sitemaps', async t => {
   const urls = await xmlUrls(fixtures.sitemapOfSitemaps, { prerender: false, getBrowserless })
-  console.log('urls', urls)
   t.snapshot(urls)
 })
