@@ -30,7 +30,7 @@
     "cheerio": "~1.2.0",
     "html-get": "~2.22.0",
     "lodash": "~4.18.1",
-    "matcher": "~4.0.0"
+    "matcher": "~5.0.0"
   },
   "devDependencies": {
     "@commitlint/cli": "latest",
