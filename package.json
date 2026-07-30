@@ -1,6 +1,6 @@
 {
   "name": "xml-urls",
-  "description": "Get all urls from a Feed/Atom/RSS/Sitemap xml markup.",
+  "description": "Extract all URLs from Feed, Atom, RSS, and Sitemap XML markup for crawling and auditing.",
   "homepage": "https://github.com/Kikobeats/xml-urls",
   "version": "2.1.77",
   "main": "index.js",
@@ -18,10 +18,15 @@
     "url": "https://github.com/Kikobeats/xml-urls/issues"
   },
   "keywords": [
+    "atom",
+    "crawl",
+    "extract",
+    "feed",
+    "parser",
+    "rss",
     "sitemap",
     "url",
     "urls",
-    "xml",
     "xml"
   ],
   "dependencies": {
