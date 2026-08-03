@@ -2,7 +2,7 @@
   "name": "xml-urls",
   "description": "Extract all URLs from Feed, Atom, RSS, and Sitemap XML markup for crawling and auditing.",
   "homepage": "https://github.com/Kikobeats/xml-urls",
-  "version": "2.1.77",
+  "version": "2.1.78",
   "main": "index.js",
   "author": {
     "email": "josefrancisco.verdu@gmail.com",
