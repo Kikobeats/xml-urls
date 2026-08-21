@@ -30,7 +30,7 @@
     "xml"
   ],
   "dependencies": {
-    "@metascraper/helpers": "~5.55.0",
+    "@metascraper/helpers": "~5.56.2",
     "aigle": "~1.14.1",
     "cheerio": "~1.2.0",
     "html-get": "~2.26.0",
