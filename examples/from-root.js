@@ -1,9 +1,6 @@
 'use strict'
 
-// const sitemaps = [
-//   'https://kikobeats.com/sitemap.xml',
-//   'https://audiense.com/sitemap_index.xml'
-// ]
+// const websites = ['https://kikobeats.com', 'https://audiense.com']
 
 const createBrowserless = require('browserless')
 const xmlUrls = require('..')
@@ -15,7 +12,10 @@ const xmlUrls = require('..')
   const browserlessFactory = createBrowserless()
 
   try {
-    const urls = await xmlUrls(url, { getBrowserless: () => browserlessFactory })
+    const sitemaps = await xmlUrls.getSitemaps(url)
+    console.log(sitemaps)
+
+    const urls = await xmlUrls.fromRoot(url, { getBrowserless: () => browserlessFactory })
     console.log(urls)
     console.log(urls.length)
   } finally {
