@@ -32,13 +32,26 @@ const DEFAULT_USER_AGENT =
 const HTTP_PROTOCOLS = new Set(['http:', 'https:'])
 
 const DEFAULT_TIMEOUT = 8000
+const DEFAULT_CONCURRENCY = 8
+
+const MAX_PROBE_BYTES = 4 * 1024
+const MAX_ROBOTS_TXT_BYTES = 512 * 1024
+const MAX_SITEMAPS = 1000
 
 const getText = $ =>
   function () {
     return $(this).text().trim()
   }
 
-const isXmlUrl = url => REGEX_URL_XML.test(path.extname(url))
+const getPathname = url => {
+  try {
+    return new URL(url).pathname
+  } catch (_) {
+    return url
+  }
+}
+
+const isXmlUrl = url => REGEX_URL_XML.test(path.extname(getPathname(url)))
 
 const isExcluded = (url, whitelist) =>
   !isEmpty(whitelist) && !isEmpty(matcher([url], concat(whitelist)))
@@ -53,29 +66,30 @@ const getSitemapUrls = async (url, opts = {}, visitedSitemaps = new Set()) => {
   const $ = cheerio.load(html, { xmlMode: true, ...cheerioOpts })
   const locations = uniq($(XML_SELECTOR).map(getText($)).get())
 
-  const iterator = async (set, location) => {
-    if (isExcluded(location, whitelist)) return set
+  const iterator = async (urls, location) => {
+    if (isExcluded(location, whitelist)) return urls
     const url = normalizeUrl(baseUrl, location)
-    if (!isXmlUrl(location)) return new Set([...set, url])
-    if (visitedSitemaps.has(url)) return set
-    const urls = await getSitemapUrls(url, opts, visitedSitemaps)
-    return new Set([...set, ...urls])
+    if (!isXmlUrl(url)) return urls.add(url)
+    if (visitedSitemaps.has(url) || visitedSitemaps.size >= MAX_SITEMAPS) return urls
+    const nested = await getSitemapUrls(url, opts, visitedSitemaps)
+    nested.forEach(url => urls.add(url))
+    return urls
   }
 
   return aigle.reduce(locations, iterator, new Set())
 }
 
-const xmlUrls = async (urls, opts) => {
+const xmlUrls = async (sitemaps, opts) => {
   const visitedSitemaps = new Set()
 
-  const iterator = async (set, url) => {
-    if (visitedSitemaps.has(url)) return set
-    const urls = await getSitemapUrls(url, opts, visitedSitemaps)
-    return new Set([...set, ...urls])
+  const iterator = async (urls, sitemap) => {
+    if (visitedSitemaps.has(sitemap)) return urls
+    const nested = await getSitemapUrls(sitemap, opts, visitedSitemaps)
+    nested.forEach(url => urls.add(url))
+    return urls
   }
 
-  const set = await aigle.reduce(concat(urls), iterator, new Set())
-  return Array.from(set)
+  return Array.from(await aigle.reduce(concat(sitemaps), iterator, new Set()))
 }
 
 const getOrigin = url => {
@@ -90,34 +104,57 @@ const createHeaders = headers => {
   return result
 }
 
+/**
+ * Options are turned into a request before the try, so a malformed `headers` or
+ * `timeout` surfaces to the caller instead of looking like an unreachable website.
+ */
 const request = async (url, { timeout, headers }) => {
+  const init = {
+    headers: createHeaders(headers),
+    redirect: 'follow',
+    signal: AbortSignal.timeout(timeout)
+  }
+
   try {
-    return await fetch(url, {
-      headers: createHeaders(headers),
-      redirect: 'follow',
-      signal: AbortSignal.timeout(timeout)
-    })
+    return await fetch(url, init)
   } catch (_) {}
 }
 
-const readChunk = async body => {
+const discard = response => response.body?.cancel().catch(() => {})
+
+const readUpTo = async (body, maxBytes) => {
   if (body === null) return ''
+
   const reader = body.getReader()
+  const chunks = []
+  let size = 0
+
   try {
-    const { value } = await reader.read()
-    return value === undefined ? '' : Buffer.from(value).toString()
+    while (size < maxBytes) {
+      const { done, value } = await reader.read()
+      if (done) break
+      chunks.push(value)
+      size += value.length
+    }
   } catch (_) {
-    return ''
   } finally {
     await reader.cancel().catch(() => {})
   }
+
+  return Buffer.concat(chunks).toString('utf8', 0, maxBytes)
 }
 
-const existsSitemap = async (url, requestOpts) => {
+const resolveSitemap = async (url, requestOpts) => {
   const response = await request(url, requestOpts)
-  if (response === undefined) return false
-  const markup = await readChunk(response.body)
-  return response.ok && REGEX_SITEMAP_ROOT_TAG.test(markup)
+  if (response === undefined) return undefined
+
+  if (!response.ok) {
+    await discard(response)
+    return undefined
+  }
+
+  const markup = await readUpTo(response.body, MAX_PROBE_BYTES)
+  return REGEX_SITEMAP_ROOT_TAG.test(markup) ? response.url : undefined
 }
 
 const getDeclaredSitemaps = async (origin, requestOpts) => {
@@ -125,40 +162,48 @@ const getDeclaredSitemaps = async (origin, requestOpts) => {
   if (response === undefined) return []
 
   if (!response.ok) {
-    await response.body?.cancel().catch(() => {})
+    await discard(response)
     return []
   }
 
-  const robotsTxt = await response.text().catch(() => '')
+  const robotsTxt = await readUpTo(response.body, MAX_ROBOTS_TXT_BYTES)
   const sitemaps = []
+
   for (const [, location] of robotsTxt.matchAll(REGEX_ROBOTS_SITEMAP)) {
     try {
-      sitemaps.push(new URL(location, response.url).toString())
+      const { href, protocol } = new URL(location, response.url)
+      if (HTTP_PROTOCOLS.has(protocol)) sitemaps.push(href)
     } catch (_) {}
   }
+
   return sitemaps
 }
 
-const getWellKnownSitemaps = (origin, requestOpts) =>
-  aigle.filter(
-    WELL_KNOWN_SITEMAP_PATHNAMES.map(pathname => `${origin}${pathname}`),
-    url => existsSitemap(url, requestOpts)
-  )
+const getWellKnownSitemaps = async (origin, requestOpts) => {
+  const candidates = WELL_KNOWN_SITEMAP_PATHNAMES.map(pathname => `${origin}${pathname}`)
+  const resolved = await aigle.map(candidates, url => resolveSitemap(url, requestOpts))
+  return resolved.filter(url => url !== undefined)
+}
 
 const getOriginSitemaps = async (origin, requestOpts) => {
   const declaredSitemaps = await getDeclaredSitemaps(origin, requestOpts)
   return isEmpty(declaredSitemaps) ? getWellKnownSitemaps(origin, requestOpts) : declaredSitemaps
 }
 
-const getSitemaps = async (rootUrls, { timeout = DEFAULT_TIMEOUT, headers } = {}) => {
+const getSitemaps = async (
+  websites,
+  { timeout = DEFAULT_TIMEOUT, concurrency = DEFAULT_CONCURRENCY, headers } = {}
+) => {
   const requestOpts = { timeout, headers }
-  const origins = uniq(concat(rootUrls).map(getOrigin))
-  const sitemaps = await aigle.map(origins, origin => getOriginSitemaps(origin, requestOpts))
+  const origins = uniq(concat(websites).map(website => getOrigin(website)))
+  const sitemaps = await aigle.mapLimit(origins, concurrency, origin =>
+    getOriginSitemaps(origin, requestOpts)
+  )
   return uniq(sitemaps.flat())
 }
 
-const fromRoot = async (rootUrls, opts) => {
-  const sitemaps = await getSitemaps(rootUrls, opts)
+const fromRoot = async (websites, opts) => {
+  const sitemaps = await getSitemaps(websites, opts)
   return isEmpty(sitemaps) ? [] : xmlUrls(sitemaps, opts)
 }
 
