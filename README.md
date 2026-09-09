@@ -1,8 +1,8 @@
 # xml-urls
 
-![Last version](https://img.shields.io/github/tag/Kikobeats/xml-urls.svg?style=flat-square)
-[![Coverage Status](https://img.shields.io/coveralls/Kikobeats/xml-urls.svg?style=flat-square)](https://coveralls.io/github/Kikobeats/xml-urls)
-[![NPM Status](https://img.shields.io/npm/dm/xml-urls.svg?style=flat-square)](https://www.npmjs.org/package/xml-urls)
+[![Last version](https://img.shields.io/github/v/tag/Kikobeats/xml-urls?style=flat-square)](https://github.com/Kikobeats/xml-urls/releases)
+[![Coverage Status](https://img.shields.io/coverallsCoverage/github/Kikobeats/xml-urls?style=flat-square)](https://coveralls.io/github/Kikobeats/xml-urls)
+[![NPM Status](https://img.shields.io/npm/dm/xml-urls?style=flat-square)](https://www.npmjs.com/package/xml-urls)
 
 > Get all URLs detected inside a Feed/Atom/RSS/Sitemap xml markup.
 
