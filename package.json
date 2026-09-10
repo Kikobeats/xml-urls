@@ -76,7 +76,7 @@
   "license": "MIT",
   "ava": {
     "files": [
-      "test/**/*",
+      "test/**/*.js",
       "!test/util.js"
     ],
     "workerThreads": false
