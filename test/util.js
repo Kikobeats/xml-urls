@@ -1,24 +1,57 @@
 'use strict'
 
+const { readFile } = require('fs/promises')
 const createBrowserless = require('browserless')
 const { onExit } = require('signal-exit')
+const http = require('http')
+const path = require('path')
 
 const browserlessFactory = createBrowserless()
 onExit(browserlessFactory.close)
 
-/**
- * tests files at: https://gist.github.com/Kikobeats/317550e76f1cbd399cebe3bddc0c146b
- */
-const fixtures = {
-  sitemap:
-    'https://gist.githubusercontent.com/Kikobeats/317550e76f1cbd399cebe3bddc0c146b/raw/69f37258c61cc8114d25a86238bca572d5f81c30/sitemap.xml',
-  sitemaWithDuplicates:
-    'https://gist.githubusercontent.com/Kikobeats/317550e76f1cbd399cebe3bddc0c146b/raw/69f37258c61cc8114d25a86238bca572d5f81c30/sitemap_with_duplicates.xml',
-  sitemapOfSitemaps:
-    'https://gist.githubusercontent.com/Kikobeats/317550e76f1cbd399cebe3bddc0c146b/raw/69f37258c61cc8114d25a86238bca572d5f81c30/sitemap_of_sitemaps.xml'
+const FIXTURES_DIRECTORY = path.join(__dirname, 'fixtures')
+
+const REGEX_ORIGIN_PLACEHOLDER = /\{\{origin\}\}/g
+
+const serveXml = xml => (req, res, origin) => {
+  res.setHeader('content-type', 'application/xml')
+  res.end(xml.replace(REGEX_ORIGIN_PLACEHOLDER, origin))
 }
 
+const serveFixture = async (pathname, req, res, origin) => {
+  try {
+    const xml = await readFile(path.join(FIXTURES_DIRECTORY, path.basename(pathname)), 'utf8')
+    serveXml(xml)(req, res, origin)
+  } catch (_) {
+    res.statusCode = 404
+    res.end()
+  }
+}
+
+const createServer = (routes = {}) =>
+  new Promise(resolve => {
+    const server = http.createServer((req, res) => {
+      const origin = `http://${req.headers.host}`
+      const { pathname } = new URL(req.url, origin)
+      const route = routes[pathname]
+      return route ? route(req, res, origin) : serveFixture(pathname, req, res, origin)
+    })
+
+    const close = () =>
+      new Promise(resolve => {
+        if (typeof server.closeAllConnections === 'function') {
+          server.closeAllConnections()
+        }
+        server.close(resolve)
+      })
+
+    server.listen(0, '127.0.0.1', () =>
+      resolve({ url: `http://127.0.0.1:${server.address().port}`, close })
+    )
+  })
+
 module.exports = {
-  fixtures,
-  getBrowserless: () => browserlessFactory
+  createServer,
+  getBrowserless: () => browserlessFactory,
+  serveXml
 }
