@@ -12,6 +12,8 @@
 $ npm install xml-urls --save
 ```
 
+It has no dependencies and requires Node.js 18 or later (it uses the built-in `fetch`).
+
 ## Usage
 
 ```js
@@ -42,25 +44,40 @@ See more at [examples](/examples).
 
 ### xmlUrls(urls, [options])
 
-#### url
+Every `<loc>` found is resolved against the sitemap origin and normalized: credentials, `utm_*` query parameters, text fragments, and duplicate path slashes are removed. Locations ending in `.xml` are fetched and expanded recursively, each sitemap at most once. A sitemap that fails to load, answers with an error status, or times out contributes no URLs.
+
+#### urls
 
 *Required*<br>
-Type: `string`
+Type: `string` | `string[]`
+
+The sitemap URL, or a list of them.
 
 #### options
 
 Type: `object`
 
-Use it for providing [html-get#options](https://github.com/Kikobeats/html-get#options).
+Any other option is forwarded to [`fetch`](https://developer.mozilla.org/en-US/docs/Web/API/RequestInit), e.g. `headers`.
+
+##### timeout
+
+Type: `number`<br>
+Default: `8000`
+
+Milliseconds to wait for each sitemap before giving up on it.
 
 ##### whitelist
 
-Type: `array`<br>
+Type: `string` | `string[]`<br>
 Default: `[]`
 
-A list of links to be excluded from the final output. It supports regex patterns.
+Patterns of locations to exclude from the output. Excluded `.xml` locations are not fetched.
 
-See [matcher](https://github.com/sindresorhus/matcher#matcher-= for know more.
+Each pattern matches the whole location, case-insensitively, where `*` matches any characters. A pattern starting with `!` re-includes what earlier patterns excluded; when the first pattern is negated, everything it does not match is excluded.
+
+```js
+await xmlUrls(url, { whitelist: ['*examples*', '!*examples/keep*'] })
+```
 
 ## Related
 

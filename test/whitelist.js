@@ -3,12 +3,16 @@
 const test = require('ava')
 const xmlUrls = require('..')
 
-const { getBrowserless, fixtures } = require('./util')
+const { createServer } = require('./util')
+
+test.before(async t => {
+  t.context.server = await createServer()
+})
+
+test.after.always(t => t.context.server.close())
 
 test('Exclude urls based on pattern', async t => {
-  const urls = await xmlUrls(fixtures.sitemap, {
-    prerender: false,
-    getBrowserless,
+  const urls = await xmlUrls(`${t.context.server.url}/sitemap.xml`, {
     whitelist: ['*examples*']
   })
 
