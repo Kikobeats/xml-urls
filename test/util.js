@@ -11,30 +11,20 @@ onExit(browserlessFactory.close)
 
 const FIXTURES_DIRECTORY = path.join(__dirname, 'fixtures')
 
-const REGEX_ORIGIN_PLACEHOLDER = /\{\{origin\}\}/g
-
-const serveXml = xml => (req, res, origin) => {
-  res.setHeader('content-type', 'application/xml')
-  res.end(xml.replace(REGEX_ORIGIN_PLACEHOLDER, origin))
-}
-
-const serveFixture = async (pathname, req, res, origin) => {
-  try {
-    const xml = await readFile(path.join(FIXTURES_DIRECTORY, path.basename(pathname)), 'utf8')
-    serveXml(xml)(req, res, origin)
-  } catch (_) {
-    res.statusCode = 404
-    res.end()
-  }
-}
-
-const createServer = (routes = {}) =>
+const createServer = () =>
   new Promise(resolve => {
-    const server = http.createServer((req, res) => {
+    const server = http.createServer(async (req, res) => {
       const origin = `http://${req.headers.host}`
       const { pathname } = new URL(req.url, origin)
-      const route = routes[pathname]
-      return route ? route(req, res, origin) : serveFixture(pathname, req, res, origin)
+
+      try {
+        const xml = await readFile(path.join(FIXTURES_DIRECTORY, path.basename(pathname)), 'utf8')
+        res.setHeader('content-type', 'application/xml')
+        res.end(xml.replace(/\{\{origin\}\}/g, origin))
+      } catch (_) {
+        res.statusCode = 404
+        res.end()
+      }
     })
 
     const close = () =>
@@ -52,6 +42,5 @@ const createServer = (routes = {}) =>
 
 module.exports = {
   createServer,
-  getBrowserless: () => browserlessFactory,
-  serveXml
+  getBrowserless: () => browserlessFactory
 }
