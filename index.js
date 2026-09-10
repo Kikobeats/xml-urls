@@ -9,7 +9,7 @@ const path = require('path')
 const REGEX_URL_XML = /^\.xml$/i
 const XML_SELECTOR = 'loc'
 
-const isHtml = value => typeof value === 'string' && /^\s*</.test(value)
+const isMarkup = value => typeof value === 'string' && /^\s*</.test(value)
 
 const isXmlUrl = url => REGEX_URL_XML.test(path.extname(url))
 
@@ -22,29 +22,29 @@ const getContent = async (url, fetcher, opts) => {
   if (typeof result === 'string') return result
   if (result && typeof result.html === 'string') return result.html
   const buffer = Buffer.from(await result.arrayBuffer())
-  return (
-    buffer[0] === 31 && buffer[1] === 139 ? require('zlib').gunzipSync(buffer) : buffer
-  ).toString()
+  if (buffer[0] === 0x1f && buffer[1] === 0x8b) {
+    return require('zlib').gunzipSync(buffer).toString()
+  }
+  return buffer.toString()
 }
 
 const xmlUrls = async (
   input,
   { cheerioOpts = {}, whitelist = false, html, url, fetcher = defaultFetcher, ...opts } = {}
 ) => {
-  const markup = isHtml(input) ? input : html
-  const target = isHtml(input) ? url : input
+  const fromMarkup = isMarkup(input)
+  const markup = fromMarkup ? input : html
+  const target = fromMarkup ? url : input
   const body = markup || (await getContent(target, fetcher, opts))
   const base = target && new URL(target).origin
   const $ = cheerio.load(body, { xmlMode: true, ...cheerioOpts })
-  const locs = [
-    ...new Set(
-      $(XML_SELECTOR)
-        .map(function () {
-          return $(this).text().trim()
-        })
-        .get()
-    )
-  ]
+  const locs = new Set(
+    $(XML_SELECTOR)
+      .map(function () {
+        return $(this).text().trim()
+      })
+      .get()
+  )
 
   const urls = new Set()
   for (const loc of locs) {
