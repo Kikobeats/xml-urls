@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## 2.2.0 (2026-09-10)
+
+
+### Features
+
+* accept markup input and custom fetcher ([#154](https://github.com/Kikobeats/xml-urls/issues/154)) ([7c14936](https://github.com/Kikobeats/xml-urls/commit/7c149362a17bd720798e2b82135f8e0e2948e382))
+
 ### 2.1.85 (2026-09-10)
 
 ### 2.1.84 (2026-09-09)
