@@ -1,57 +1,73 @@
 'use strict'
 
-const { uniq, concat, isEmpty } = require('lodash')
-const getHTML = require('html-get')
+const { normalizeUrl } = require('@metascraper/helpers')
 const cheerio = require('cheerio')
 const matcher = require('matcher')
-const aigle = require('aigle')
 const { URL } = require('url')
 const path = require('path')
-
-const { normalizeUrl } = require('@metascraper/helpers')
 
 const REGEX_URL_XML = /^\.xml$/i
 const XML_SELECTOR = 'loc'
 
-const getText = $ =>
-  function () {
-    return $(this)
-      .text()
-      .trim()
-  }
+const isMarkup = value => typeof value === 'string' && /^\s*</.test(value)
 
 const isXmlUrl = url => REGEX_URL_XML.test(path.extname(url))
 
-const xmlUrls = async (url, { cheerioOpts = {}, whitelist = false, ...opts } = {}) => {
-  const { origin: baseUrl } = new URL(url)
-  const { html } = await getHTML(url, opts)
-  const $ = cheerio.load(html, { xmlMode: true, ...cheerioOpts })
-  const urls = uniq(
+const HTML_GET = 'html-get'
+
+const defaultFetcher = (url, opts) => require(HTML_GET)(url, opts)
+
+const getContent = async (url, fetcher, opts) => {
+  const result = await fetcher(url, opts)
+  if (typeof result === 'string') return result
+  if (result && typeof result.html === 'string') return result.html
+  const buffer = Buffer.from(await result.arrayBuffer())
+  if (buffer[0] === 0x1f && buffer[1] === 0x8b) {
+    return require('zlib').gunzipSync(buffer).toString()
+  }
+  return buffer.toString()
+}
+
+const xmlUrls = async (
+  input,
+  { cheerioOpts = {}, whitelist = false, html, url, fetcher = defaultFetcher, ...opts } = {}
+) => {
+  const fromMarkup = isMarkup(input)
+  const markup = fromMarkup ? input : html
+  const target = fromMarkup ? url : input
+  const body = markup || (await getContent(target, fetcher, opts))
+  const base = target && new URL(target).origin
+  const $ = cheerio.load(body, { xmlMode: true, ...cheerioOpts })
+  const locs = new Set(
     $(XML_SELECTOR)
-      .map(getText($))
+      .map(function () {
+        return $(this).text().trim()
+      })
       .get()
   )
 
-  const iterator = async (set, url) => {
-    const match = !isEmpty(whitelist) && matcher([url], concat(whitelist))
-    if (!isEmpty(match)) return set
-    const urls = isXmlUrl(url) ? await xmlUrls(url, opts) : [normalizeUrl(baseUrl, url)]
-    return new Set([...set, ...urls])
+  const urls = new Set()
+  for (const loc of locs) {
+    const resolved = base ? normalizeUrl(base, loc) : normalizeUrl(loc)
+    if (!resolved) continue
+    if (whitelist && matcher([resolved], [].concat(whitelist)).length) continue
+    if (isXmlUrl(resolved)) {
+      for (const item of await xmlUrls(resolved, { cheerioOpts, whitelist, fetcher, ...opts })) {
+        urls.add(item)
+      }
+    } else {
+      urls.add(resolved)
+    }
   }
-
-  return aigle.reduce(urls, iterator, new Set())
+  return urls
 }
 
-module.exports = async (urls, opts) => {
-  const collection = concat(urls)
-
-  const iterator = async (set, url) => {
-    const urls = Array.from(await xmlUrls(url, opts))
-    return new Set([...set, ...urls])
+module.exports = async (input, opts) => {
+  const urls = new Set()
+  for (const item of [].concat(input)) {
+    for (const url of await xmlUrls(item, opts)) urls.add(url)
   }
-
-  const set = await aigle.reduce(collection, iterator, new Set())
-  return Array.from(set)
+  return [...urls]
 }
 
 module.exports.isXmlUrl = isXmlUrl

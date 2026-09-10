@@ -1,15 +1,10 @@
 'use strict'
 
 const { readFile } = require('fs/promises')
-const createBrowserless = require('browserless')
-const { onExit } = require('signal-exit')
 const http = require('http')
 const path = require('path')
 
-const browserlessFactory = createBrowserless()
-onExit(browserlessFactory.close)
-
-const FIXTURES_DIRECTORY = path.join(__dirname, 'fixtures')
+const FIXTURES_DIRECTORY = path.join(__dirname, '..', 'fixtures')
 
 const createServer = () =>
   new Promise(resolve => {
@@ -40,7 +35,4 @@ const createServer = () =>
     )
   })
 
-module.exports = {
-  createServer,
-  getBrowserless: () => browserlessFactory
-}
+module.exports = { createServer }
