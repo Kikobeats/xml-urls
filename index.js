@@ -1,57 +1,74 @@
 'use strict'
 
-const { uniq, concat, isEmpty } = require('lodash')
+const { normalizeUrl } = require('@metascraper/helpers')
 const getHTML = require('html-get')
 const cheerio = require('cheerio')
 const matcher = require('matcher')
-const aigle = require('aigle')
-const { URL } = require('url')
 const path = require('path')
 
-const { normalizeUrl } = require('@metascraper/helpers')
-
 const REGEX_URL_XML = /^\.xml$/i
-const XML_SELECTOR = 'loc'
 
-const getText = $ =>
-  function () {
-    return $(this)
-      .text()
-      .trim()
-  }
+const LOC_SELECTOR = 'loc'
 
 const isXmlUrl = url => REGEX_URL_XML.test(path.extname(url))
 
-const xmlUrls = async (url, { cheerioOpts = {}, whitelist = false, ...opts } = {}) => {
-  const { origin: baseUrl } = new URL(url)
-  const { html } = await getHTML(url, opts)
-  const $ = cheerio.load(html, { xmlMode: true, ...cheerioOpts })
-  const urls = uniq(
-    $(XML_SELECTOR)
-      .map(getText($))
-      .get()
-  )
-
-  const iterator = async (set, url) => {
-    const match = !isEmpty(whitelist) && matcher([url], concat(whitelist))
-    if (!isEmpty(match)) return set
-    const urls = isXmlUrl(url) ? await xmlUrls(url, opts) : [normalizeUrl(baseUrl, url)]
-    return new Set([...set, ...urls])
-  }
-
-  return aigle.reduce(urls, iterator, new Set())
+const createExclusionMatcher = whitelist => {
+  const patterns = whitelist || []
+  if (patterns.length === 0) return () => false
+  return url => matcher([url], patterns).length > 0
 }
 
-module.exports = async (urls, opts) => {
-  const collection = concat(urls)
+const withPrerenderDefault = opts =>
+  opts.getBrowserless ? opts : { ...opts, prerender: opts.prerender ?? false }
 
-  const iterator = async (set, url) => {
-    const urls = Array.from(await xmlUrls(url, opts))
-    return new Set([...set, ...urls])
+const fetchXml = async (url, opts) => (await getHTML(url, opts)).html
+
+const extractLocs = (xml, cheerioOpts) => {
+  const $ = cheerio.load(xml, { xmlMode: true, ...cheerioOpts })
+  return $(LOC_SELECTOR)
+    .map((_, element) => $(element).text().trim())
+    .get()
+    .filter(Boolean)
+}
+
+const collectSitemapLoc = async (loc, origin, context) => {
+  if (URL.canParse(loc, origin)) await collectUrls(new URL(loc, origin).href, context)
+}
+
+const collectPageLoc = (loc, origin, context) => {
+  const url = normalizeUrl(origin, loc)
+  if (url) context.urls.add(url)
+}
+
+const collectLoc = (loc, origin, context) =>
+  isXmlUrl(loc) ? collectSitemapLoc(loc, origin, context) : collectPageLoc(loc, origin, context)
+
+const collectUrls = async (sitemapUrl, context) => {
+  if (context.visited.has(sitemapUrl)) return
+  context.visited.add(sitemapUrl)
+
+  const { origin } = new URL(sitemapUrl)
+  const xml = await fetchXml(sitemapUrl, context.getHTMLOpts)
+
+  for (const loc of new Set(extractLocs(xml, context.cheerioOpts))) {
+    if (!context.isExcluded(loc)) await collectLoc(loc, origin, context)
+  }
+}
+
+module.exports = async (sitemapUrls, { whitelist, cheerioOpts, ...getHTMLOpts } = {}) => {
+  const context = {
+    cheerioOpts,
+    getHTMLOpts: withPrerenderDefault(getHTMLOpts),
+    isExcluded: createExclusionMatcher(whitelist),
+    urls: new Set(),
+    visited: new Set()
   }
 
-  const set = await aigle.reduce(collection, iterator, new Set())
-  return Array.from(set)
+  for (const sitemapUrl of [].concat(sitemapUrls)) {
+    await collectUrls(new URL(sitemapUrl).href, context)
+  }
+
+  return Array.from(context.urls)
 }
 
 module.exports.isXmlUrl = isXmlUrl

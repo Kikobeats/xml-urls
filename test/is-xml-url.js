@@ -13,3 +13,8 @@ test('from path', t => {
   t.is(true, isXmlUrl('/user/root/sitemap.xml'))
   t.is(false, isXmlUrl('/user/root/style.css'))
 })
+
+test('ignores extension casing', t => {
+  t.is(true, isXmlUrl('https://kikobeats.com/SITEMAP.XML'))
+  t.is(true, isXmlUrl('/user/root/sitemap.Xml'))
+})

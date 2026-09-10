@@ -42,25 +42,37 @@ See more at [examples](/examples).
 
 ### xmlUrls(urls, [options])
 
-#### url
+Every `<loc>` is resolved against the origin of the sitemap it appears in. Locations ending in `.xml` are fetched and expanded recursively, each distinct URL at most once; every other location is normalized with [@metascraper/helpers](https://github.com/microlinkhq/metascraper/tree/master/packages/metascraper-helpers). Fetched without prerendering, a sitemap that fails to load, answers with an error status, or times out contributes no URLs.
+
+#### urls
 
 *Required*<br>
-Type: `string`
+Type: `string` | `string[]`
+
+The sitemap URL, or a list of them.
 
 #### options
 
 Type: `object`
 
-Use it for providing [html-get#options](https://github.com/Kikobeats/html-get#options).
+Any other option is forwarded to [html-get](https://github.com/Kikobeats/html-get#options) for every sitemap, including nested ones, e.g. `headers` or `gotOpts`. Without `getBrowserless`, sitemaps are fetched with `prerender: false` unless you set it to a value other than `null` or `undefined`; pass html-get's `getBrowserless` and its own `prerender` default applies.
+
+##### cheerioOpts
+
+Type: `object`
+
+[cheerio](https://cheerio.js.org) options used to read the `<loc>` values of every sitemap, including nested ones, e.g. `{ decodeEntities: false }`.
 
 ##### whitelist
 
-Type: `array`<br>
+Type: `string` | `string[]`<br>
 Default: `[]`
 
-A list of links to be excluded from the final output. It supports regex patterns.
+Patterns of locations to exclude from the output, matched with [matcher](https://github.com/sindresorhus/matcher) against the text of each `<loc>` (trimmed, entities decoded), before it is resolved. Excluded `.xml` locations are not fetched.
 
-See [matcher](https://github.com/sindresorhus/matcher#matcher-= for know more.
+```js
+await xmlUrls(url, { whitelist: ['*examples*', '!*examples/keep*'] })
+```
 
 ## Related
 
