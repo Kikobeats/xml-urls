@@ -1,8 +1,8 @@
 'use strict'
 
 const { normalizeUrl } = require('@metascraper/helpers')
+const { matcher } = require('matcher')
 const cheerio = require('cheerio')
-const matcher = require('matcher')
 const { URL } = require('url')
 const path = require('path')
 
