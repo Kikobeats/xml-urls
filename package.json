@@ -30,7 +30,7 @@
     "xml"
   ],
   "dependencies": {
-    "@metascraper/helpers": "~5.56.2",
+    "@metascraper/helpers": "5",
     "cheerio": "~1.2.0",
     "html-get": "~2.27.1",
     "matcher": "~7.0.0"
